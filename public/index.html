@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="upload" multiple>
+        <button type="submit">上传</button>
+    
+    </form>
+
+    <form action="/down" method="POST">
+        <button>文件下载</button>
+    
+    </form>
+
+    <span>
+
+    </span>
+</body>
+
+<script>
+  let xml=  new XMLHttpRequest()
+    let span=document.querySelector("span")
+  xml.onreadystatechange=function(resp){
+      const {status,readyState,response}=resp.currentTarget
+        if(readyState===4&&(status>=200&&status<300)){
+            span.innerHTML=response;
+           span.dataset.index=6666
+            console.log(span.dataset.index)
+        }
+
+
+  }
+
+  span.addEventListener("click",()=>{
+    xml.open("get","http://localhost:3003/yzm")
+      xml.send()
+  })
+  xml.open("get","http://localhost:3003/yzm")
+  xml.setRequestHeader("context-type","application/json")
+  xml.send()
+
+</script>
+</html>
