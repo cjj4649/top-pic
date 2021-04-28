@@ -1,13 +1,11 @@
 const express=require("express")
-
 const captcha=require("svg-captcha")
-
 // 引入上传插件
 const multer=require("multer")
 const {saveFile,alterFile}=require("./../utils/upload")
 const upload=multer()
 const router=express.Router()
-const {selectImages,selectCount,searchImg} =require("../db/module/imgs")
+const {selectImages,selectCount,searchImg,getImg,getAllLunBo,getAllimg} =require("../db/module/imgs")
 
 
 // 文件上传
@@ -84,11 +82,12 @@ router.get("/getCount",async(req,resp)=>{
 })
 
 // 搜索模糊匹配
-router.get("/search", async(req,resp)=>{
+router.post("/search", async(req,resp)=>{
 
-    const {keyword}=req.query
+    const {keywords}=req.body
+    console.log(req.body)
   try{
-    let data= await searchImg(keyword)
+    let data= await searchImg(keywords)
     resp.json(data)
   }catch(err){
       resp.json(err)
@@ -97,5 +96,38 @@ router.get("/search", async(req,resp)=>{
 
 })
 
+// 轮播图获取
+router.get("/lunbotu", async(req,resp)=>{
 
+  try{
+    let data= await getImg()
+    resp.json(data)
+  }catch(err){
+      resp.json(err)
+  }
+  })
+
+
+// 管理员查询轮播图
+
+
+router.get("/alllunbo", async(req,resp)=>{
+
+  try{
+    let data = await getAllLunBo()
+    resp.json(data)
+  }catch(err){
+      resp.json(err)
+  }
+})
+// 查询图片
+router.get("/allimgs", async(req,resp)=>{
+
+  try{
+    let data = await getAllimg()
+    resp.json(data)
+  }catch(err){
+      resp.json(err)
+  }
+})
 module.exports=router

@@ -78,11 +78,6 @@ async function alterFile(data,cid){
         }catch(error){
             reject(error)
          }
-    
-        
-
-
-
 
    })
 
@@ -115,8 +110,35 @@ function addSy(item){
 
     })
 }
+// 保存轮播图 
+function saveLunbo(data) {
+  return new Promise(async (reslove,reject)=>{
+    try{
+             let fileName = images("public/imgs/"+fileName);
+            // ai检测
+           let base64= fs.readFileSync("public/imgs/"+fileName,{encoding:"base64"})
 
+
+             if(result.length>0){
+                desc=result.reduce((str,item)=>{
+                    str+=(item["root"]+item["keyword"])
+                    return str;
+                },"")
+             }  
+             let results = await addImages(item)    //加入数据库 
+          reslove({
+              status:1,
+              ...data,
+              results
+          })
+        }catch(error){
+            reject(error)
+         }
+
+   })
+
+}
 
 module.exports={
-    saveFile,alterFile
+    saveFile,alterFile,saveLunbo
 }

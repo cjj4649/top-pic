@@ -2,6 +2,7 @@ const connection= require("../connection")
 const moment=require("moment");
 moment.locale("zh-ch")
 const dates=moment()
+
 // 加入图片文件
 
 function addImages(imgs){
@@ -99,9 +100,10 @@ function selectCount(cid){
 // 搜索查询
 
 function searchImg(keyword){
+  console.log(keyword)
     return new Promise((reslove,reject)=>{
         connection.query("select * from imgs where descs like ?",[`%${keyword}%`],(err,data)=>{
-
+          console.log([`%${keyword}%`])
             if(!err){
                 reslove({
                     status:1,
@@ -121,12 +123,93 @@ function searchImg(keyword){
 
     })
 }
+// 轮播图上传
+function uploadToken() {
+
+}
+
+// 轮播图获取
+
+function getImg(){
+  return new Promise((reslove,reject)=>{
+      connection.query("select * from lunbo where state = '1'",(err,data)=>{
+
+          if(!err){
+              reslove({
+                  status:1,
+                  list:data
+              })
+          }else {
+              // reject({
+              //     status:0,
+              //     message:"查询失败！"
+              // })
+              console.log(err)
+          }
+
+      })
+
+
+
+  })
+}
+// 轮播图数据获取
+function getAllLunBo(){
+  return new Promise((reslove,reject)=>{
+      connection.query("select * from lunbo",(err,data)=>{
+
+          if(!err){
+              reslove({
+                  status:1,
+                  data:data
+              })
+          }else {
+              // reject({
+              //     status:0,
+              //     message:"查询失败！"
+              // })
+              console.log(err)
+          }
+
+      })
+
+
+
+  })
+}
+// 轮播图数据获取
+function getAllimg(){
+  return new Promise((reslove,reject)=>{
+      connection.query("select * from imgs",(err,data)=>{
+
+          if(!err){
+              reslove({
+                  status:1,
+                  data:data
+              })
+          }else {
+              // reject({
+              //     status:0,
+              //     message:"查询失败！"
+              // })
+              console.log(err)
+          }
+
+      })
+
+
+
+  })
+}
 
 module.exports={
     addImages,
     addTime,
     selectImages,
     selectCount,
-    searchImg
+    searchImg,
+    getImg,
+    getAllLunBo,
+    getAllimg
 
 }
